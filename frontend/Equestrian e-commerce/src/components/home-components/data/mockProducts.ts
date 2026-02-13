@@ -1,0 +1,30 @@
+import type { Product } from '../types/product';
+import Image1 from '../casco.jpg';
+
+export const mockProducts: Product[] = [
+  { id: 1, name: 'Casco de jinete', price: 15000, stars: 5, image: `${Image1}` },
+  { id: 2, name: 'Casco de jinete', price: 12000, stars: 4, image: `${Image1}` },
+  { id: 3, name: 'Casco de jinete', price: 18000, stars: 5, image: `${Image1}` },
+  { id: 4, name: 'Casco de jinete', price: 25000, stars: 5, image: `${Image1}` },
+  { id: 5, name: 'Casco de jinete', price: 9500, stars: 4, image: `${Image1}` },
+  { id: 6, name: 'Casco de jinete', price: 8000, stars: 4, image: `${Image1}` },
+  { id: 7, name: 'Casco de jinete', price: 3500, stars: 5, image: `${Image1}` },
+  { id: 8, name: 'Casco de jinete', price: 11000, stars: 4, image: `${Image1}` },
+  { id: 9, name: 'Casco de jinete', price: 14000, stars: 5, image: `${Image1}` },
+  { id: 10, name: 'Casco de jinete', price: 13500, stars: 4, image: `${Image1}` },
+  { id: 11, name: 'Potro Mustang', price: 7500, stars: 3, image: `${Image1}` },
+  { id: 12, name: 'Caballo Percheron', price: 16000, stars: 4, image: `${Image1}` },
+  { id: 13, name: 'Yegua Palomino', price: 19000, stars: 5, image: `${Image1}` },
+  { id: 14, name: 'Caballo Cuarto de Milla', price: 10500, stars: 4, image: `${Image1}` },
+  { id: 15, name: 'Pura Sangre Inglés', price: 22000, stars: 5, image: `${Image1}` },
+  { id: 16, name: 'Caballo Haflinger', price: 8500, stars: 4, image: `${Image1}` },
+  { id: 17, name: 'Yegua Tennessee Walker', price: 13000, stars: 4, image: `${Image1}` },
+  { id: 18, name: 'Caballo Lusitano', price: 20000, stars: 5, image: `${Image1}` },
+  { id: 19, name: 'Potro Lipizzano', price: 17500, stars: 5, image: `${Image1}` },
+  { id: 20, name: 'Caballo Warmblood', price: 24000, stars: 5, image: `${Image1}` },
+  { id: 21, name: 'Yegua Standardbred', price: 9000, stars: 3, image: `${Image1}` },
+  { id: 22, name: 'Caballo Hanoveriano', price: 21000, stars: 5, image: `${Image1}` },
+  { id: 23, name: 'Poni Galés', price: 4500, stars: 4, image: `${Image1}` },
+  { id: 24, name: 'Caballo Akhal-Teke', price: 28000, stars: 5, image: `${Image1}` },
+  { id: 25, name: 'Yegua Marwari', price: 15500, stars: 4, image: `${Image1}` },
+];
