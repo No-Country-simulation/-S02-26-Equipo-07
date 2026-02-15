@@ -11,7 +11,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       <Star
         key={index}
         size={16}
-        className={`${
+        className={` ${
           index < product.stars
             ? 'fill-yellow-400 text-yellow-400'
             : 'fill-gray-200 text-gray-200'
@@ -30,13 +30,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         />
       </div>
       <div className="p-4">
-        <h3 className="font-semibold text-gray-800 text-lg mb-2 line-clamp-2 min-h-14">
-          {product.name}
-        </h3>
-        <div className="flex items-center gap-1 mb-3">
+        <div className="flex justify-center items-center gap-1 mb-3">
           {renderStars()}
         </div>
-        <p className="text-2xl font-bold text-amber-600">
+        <h3 className="font-semibold text-center text-gray-800 text-lg mb-2 line-clamp-2 min-h-14">
+          {product.name}
+        </h3>
+        <p className="text-2xl text-center font-bold text-gray-800">
           ${product.price.toLocaleString()}
         </p>
       </div>

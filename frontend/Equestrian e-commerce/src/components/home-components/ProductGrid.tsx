@@ -94,7 +94,7 @@ export default function ProductGrid({ products, itemsPerPage = 12 }: ProductGrid
             className={`p-2 rounded-lg border ${
               currentPage === 1
                 ? 'border-gray-200 text-gray-300 cursor-not-allowed'
-                : 'border-amber-600 text-amber-600 hover:bg-amber-50 transition-colors'
+                : 'border-gray-600 text-gray-600 hover:bg-gray-50 transition-colors'
             }`}
           >
             <ChevronLeft size={20} />
@@ -110,7 +110,7 @@ export default function ProductGrid({ products, itemsPerPage = 12 }: ProductGrid
                     onClick={() => goToPage(page as number)}
                     className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                       currentPage === page
-                        ? 'bg-amber-600 text-white'
+                        ? 'bg-gray-600 text-white'
                         : 'text-gray-700 hover:bg-gray-100'
                     }`}
                   >
@@ -127,7 +127,7 @@ export default function ProductGrid({ products, itemsPerPage = 12 }: ProductGrid
             className={`p-2 rounded-lg border ${
               currentPage === totalPages
                 ? 'border-gray-200 text-gray-300 cursor-not-allowed'
-                : 'border-amber-600 text-amber-600 hover:bg-amber-50 transition-colors'
+                : 'border-gray-600 text-gray-600 hover:bg-gray-50 transition-colors'
             }`}
           >
             <ChevronRight size={20} />
