@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.Auth;
-using WebApi.Services;
+using WebApi.DTOs.User;
 
 namespace WebApi.Controllers;
 
@@ -8,56 +8,71 @@ namespace WebApi.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IAuthService _authService;
+    // Simulación de base de datos en memoria
+    // Usamos RegisterRequest porque es el DTO que ya tienes definido
+    private static List<UserDto> _users = new List<UserDto>();
     private readonly ILogger<AuthController> _logger;
 
-    public AuthController(IAuthService authService, ILogger<AuthController> logger)
+    public AuthController(ILogger<AuthController> logger)
     {
-        _authService = authService;
         _logger = logger;
     }
 
     /// <summary>
-    /// Login with username and password
+    /// Registro de un nuevo usuario
     /// </summary>
-    [HttpPost("login")]
-    public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
+    [HttpPost("register")]
+    public async Task<ActionResult<string>> Register([FromBody] RegisterRequest request)
     {
-        try
-        {
-            var response = await _authService.LoginAsync(request);
-            
-            if (response == null)
-                return Unauthorized(new { message = "Invalid username or password" });
+        // 1. Validamos si el usuario ya existe en la lista de UserDto
+        if (_users.Any(u => u.Username == request.Username))
+            return BadRequest(new { message = "El usuario ya existe" });
 
-            return Ok(response);
-        }
-        catch (Exception ex)
+        // 2. Aquí es donde "mapeamos" los datos: 
+        // Pasamos lo que llega de la web (RegisterRequest) al formato de base de datos (UserDto)
+        var newUser = new UserDto
         {
-            _logger.LogError(ex, "Error during login");
-            return StatusCode(500, new { message = "An error occurred during login" });
-        }
+            Username = request.Username,
+            Password = request.Password,
+            Email = request.Email,
+            Role = request.Role ?? "user"
+        };
+
+        _users.Add(newUser);
+        return Ok(new { message = "Usuario registrado con éxito" });
     }
 
     /// <summary>
-    /// Register a new user
+    /// Login con usuario y contraseña
     /// </summary>
-    [HttpPost("register")]
-    public async Task<ActionResult<LoginResponse>> Register([FromBody] RegisterRequest request)
+    [HttpPost("login")]
+    public async Task<ActionResult<object>> Login([FromBody] LoginRequest request)
     {
         try
         {
-            var response = await _authService.RegisterAsync(request);
-            return Ok(response);
-        }
-        catch (InvalidOperationException ex)
-        {
-            return BadRequest(new { message = ex.Message });
+            // Buscamos al usuario en la lista
+            var user = _users.FirstOrDefault(u =>
+                u.Username == request.Username &&
+                u.Password == request.Password);
+
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Usuario o contraseña incorrectos" });
+            }
+
+            _logger.LogInformation("Usuario {Username} inició sesión", request.Username);
+
+            // Retornamos una respuesta de éxito
+            return Ok(new
+            {
+                message = $"¡Bienvenido, {user.Username}!",
+                token = "token-simulado-12345" // Aquí luego irá el JWT real
+            });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error during registration");
-            return StatusCode(500, new { message = "An error occurred during registration" });
+            _logger.LogError(ex, "Error durante el login");
+            return StatusCode(500, new { message = "Ocurrió un error en el servidor" });
         }
     }
 }
