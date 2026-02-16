@@ -1,5 +1,5 @@
-import { Star } from 'lucide-react';
-import type { Product } from './types/product';
+import { Star } from "lucide-react";
+import type { Product } from "./types/product";
 
 interface ProductCardProps {
   product: Product;
@@ -13,8 +13,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         size={16}
         className={` ${
           index < product.stars
-            ? 'fill-yellow-400 text-yellow-400'
-            : 'fill-gray-200 text-gray-200'
+            ? "fill-yellow-400 text-yellow-400"
+            : "fill-gray-200 text-gray-200"
         }`}
       />
     ));
