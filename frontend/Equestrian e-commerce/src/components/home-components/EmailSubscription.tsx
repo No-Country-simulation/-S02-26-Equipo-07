@@ -32,7 +32,7 @@ export default function EmailSubscription() {
   return (
     <div className="relative w-full h-80 md:h-96 rounded-lg overflow-hidden shadow-lg">
       <img
-        src="https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=800"
+        src="https://images.pexels.com/photos/1996333/pexels-photo-1996333.jpeg?auto=compress&cs=tinysrgb&w=1200"
         alt="Suscripción a newsletter"
         className="w-full h-full object-cover"
       />
@@ -68,12 +68,12 @@ export default function EmailSubscription() {
               </div>
 
               {error && (
-                <p className="text-red-300 text-sm font-medium">{error}</p>
+                <p className="text-gray-300 text-sm font-medium">{error}</p>
               )}
 
               <button
                 type="submit"
-                className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl"
+                className="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl"
               >
                 Suscribirse
               </button>

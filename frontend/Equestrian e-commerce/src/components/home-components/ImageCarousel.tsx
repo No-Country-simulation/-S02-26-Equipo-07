@@ -29,7 +29,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
   const currentImage = images[currentIndex];
 
   return (
-    <div className="relative w-full h-96 md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg shadow-lg">
+    <div className="relative w-full h-96 md:h-125 lg:h-150 overflow-hidden rounded-lg shadow-lg">
       <img
         src={currentImage.url}
         alt={currentImage.title}
@@ -52,7 +52,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
         <ChevronRight size={32} />
       </button>
 
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pt-12 pb-6 px-6">
+      <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 via-black/40 to-transparent pt-12 pb-6 px-6">
         <p className="text-white text-2xl md:text-3xl font-bold text-center">
           {currentImage.title}
         </p>
