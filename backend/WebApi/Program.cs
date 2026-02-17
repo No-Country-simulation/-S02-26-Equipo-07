@@ -113,10 +113,16 @@ builder.Services.AddDbContext<NC07WebAppContext>(options =>
 
 // Register Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICaballoRepository, CaballoRepository>();
+builder.Services.AddScoped<IJineteRepository, JineteRepository>();
+
 
 // Register Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICaballoService, CaballoService>();
+builder.Services.AddScoped<IJineteService, JineteService>();
+
 
 var app = builder.Build();
 
