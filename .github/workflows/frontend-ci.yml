@@ -2,6 +2,7 @@ name: CI (Frontend)
 
 on:
   push:
+    branches: [frontend]
     paths:
       - 'frontend/Equestrian e-commerce/**'   
   pull_request:
