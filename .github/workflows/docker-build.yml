@@ -26,12 +26,15 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKER_USERNAME }}/ecomerse_backend
+          images: ${{ secrets.DOCKER_USER}}/ecomerse_backend
 
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
+          context: ./backend/WebApi
+          file: ./backend/WebApi/Dockerfile
+
           context: .                     
           file: ./Dockerfile              
           push: true                      
