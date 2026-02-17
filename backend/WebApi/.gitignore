@@ -1,0 +1,40 @@
+## Archivos de entorno
+.env
+.env.local
+*.user
+
+## Resultados de compilación
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+## Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+## Archivos de usuario de Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Archivos de publicación
+Publish/
+publish/
+
+## Archivos de prueba
+TestResults/
+
+## Archivos de log
+*.log
+*.tmp
+
+## Archivos de caché de NuGet
+project.lock.json
+project.assets.json
+*.nuget.props
+*.nuget.targets
