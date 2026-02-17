@@ -1,0 +1,26 @@
+name: CI (Frontend)
+
+on:
+  push:
+    paths:
+      - 'frontend/Equestrian e-commerce/**'   
+  pull_request:
+    paths:
+      - 'frontend/Equestrian e-commerce/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './frontend/Equestrian e-commerce'  
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.12.0
+          cache: 'npm'
+          cache-dependency-path: 'frontend/Equestrian e-commerce/package-lock.json'
+      - run: npm ci
+      - run: npm run lint            
+      - run: npm run build
