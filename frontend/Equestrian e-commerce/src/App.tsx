@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import HomePage from './pages/home';
+import Login from './components/Login';
+
 
 function App() {
+  const [loginOpen, setLoginOpen] = useState(false);
   return (
     <div className="min-h-screen bg-linear-to-br from-amber-50 to-orange-50">
       <header className="bg-white shadow-sm border-b border-gray-200">
@@ -15,6 +19,7 @@ function App() {
       </header>
 
       <HomePage/>
+      <Login isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
     </div>
   );
 }
