@@ -115,6 +115,7 @@ builder.Services.AddDbContext<NC07WebAppContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICaballoRepository, CaballoRepository>();
 builder.Services.AddScoped<IJineteRepository, JineteRepository>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 
 
 // Register Services
@@ -122,6 +123,9 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICaballoService, CaballoService>();
 builder.Services.AddScoped<IJineteService, JineteService>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
 
 
 var app = builder.Build();

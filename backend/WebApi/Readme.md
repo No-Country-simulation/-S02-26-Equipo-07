@@ -34,3 +34,6 @@ flowchart LR
 4. **Alguien aprueba y hace MERGE a `main`** ✅
 5. **Push a `main`** → Se ejecuta **CD** (construir imagen Docker y subir a Docker Hub)
 6. **¡Imagen disponible en Docker Hub!** 📦
+
+
+
