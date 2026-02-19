@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { X, User, Mail, Lock, CheckCircle2 } from 'lucide-react';
+import { X, User, Mail, Lock } from 'lucide-react';
 
 interface RegisterProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function Register({ isOpen, onClose }: RegisterProps) {
+const Register = ({ isOpen, onClose }: RegisterProps) => {
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -73,7 +73,7 @@ export default function Register({ isOpen, onClose }: RegisterProps) {
                     value={formData.nombre}
                     onChange={handleChange}
                     placeholder="Tu nombre"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
                     required
                   />
                 </div>
@@ -91,7 +91,7 @@ export default function Register({ isOpen, onClose }: RegisterProps) {
                     value={formData.apellido}
                     onChange={handleChange}
                     placeholder="Tu apellido"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
                     required
                   />
                 </div>
@@ -110,7 +110,7 @@ export default function Register({ isOpen, onClose }: RegisterProps) {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="tu@email.com"
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
                   required
                 />
               </div>
@@ -128,7 +128,7 @@ export default function Register({ isOpen, onClose }: RegisterProps) {
                   value={formData.contraseña}
                   onChange={handleChange}
                   placeholder="Mínimo 8 caracteres"
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
                   required
                 />
               </div>
@@ -141,7 +141,7 @@ export default function Register({ isOpen, onClose }: RegisterProps) {
                   name="terminosAceptados"
                   checked={formData.terminosAceptados}
                   onChange={handleChange}
-                  className="mt-1 w-4 h-4 text-amber-500 border-gray-300 rounded focus:ring-amber-500 cursor-pointer"
+                  className="mt-1 w-4 h-4 text-gray-500 border-gray-300 rounded focus:ring-gray-500 cursor-pointer"
                   required
                 />
                 <span className="text-sm text-gray-700">
@@ -155,7 +155,7 @@ export default function Register({ isOpen, onClose }: RegisterProps) {
                   name="recibirNovedades"
                   checked={formData.recibirNovedades}
                   onChange={handleChange}
-                  className="mt-1 w-4 h-4 text-amber-500 border-gray-300 rounded focus:ring-amber-500 cursor-pointer"
+                  className="mt-1 w-4 h-4 text-gray-500 border-gray-300 rounded focus:ring-gray-500 cursor-pointer"
                 />
                 <span className="text-sm text-gray-700">
                   Quiero recibir todas las novedades sobre sus productos por email
@@ -165,17 +165,18 @@ export default function Register({ isOpen, onClose }: RegisterProps) {
 
             <button
               type="submit"
-              className="w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 rounded-lg transition-colors mt-6"
+              className="w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 rounded-lg transition-colors mt-6"
             >
               Crear Cuenta
             </button>
           </form>
 
           <p className="text-center text-gray-600 text-sm mt-4">
-            ¿Ya tienes cuenta? <a href="#" className="text-amber-600 hover:text-amber-700 font-medium">Inicia sesión aquí</a>
+            ¿Ya tienes cuenta? <a href="#" className="text-gray-700 hover:text-gray-800 font-medium">Inicia sesión aquí</a>
           </p>
         </div>
       </div>
     </div>
   );
 }
+export default Register;

@@ -29,7 +29,7 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
         <button
           onClick={onClose}
@@ -39,7 +39,7 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-          <div className="md:block bg-linear-to-br from-amber-400 to-orange-500 p-8 flex flex-col justify-center">
+          <div className="md:block bg-linear-to-br from-gray-700 to-gray-800 p-8 flex flex-col justify-center">
             <img
               src="https://images.pexels.com/photos/1996333/pexels-photo-1996333.jpeg?auto=compress&cs=tinysrgb&w=500"
               alt="Caballo"
@@ -47,7 +47,7 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
             />
             <h2 className="text-white text-2xl font-bold mt-6">Bienvenido</h2>
             <p className="text-white mt-2 opacity-90">
-              Accede a tu cuenta para explorar nuestros mejores caballos.
+              Accede a tu cuenta para disfrutar de las mejores ofertas.
             </p>
           </div>
 
@@ -68,7 +68,7 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
                     value={formData.usuario}
                     onChange={handleChange}
                     placeholder="Tu usuario o email"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
                     required
                   />
                 </div>
@@ -86,28 +86,28 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
                     value={formData.contraseña}
                     onChange={handleChange}
                     placeholder="Tu contraseña"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
                     required
                   />
                 </div>
               </div>
 
               <div className="text-right">
-                <a href="#" className="text-sm text-amber-600 hover:text-amber-700 font-medium">
+                <a href="#" className="text-sm text-gray-700 hover:text-gray-800 font-medium">
                   ¿Olvidaste tu contraseña?
                 </a>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 rounded-lg transition-colors mt-6"
+                className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 rounded-lg transition-colors mt-6"
               >
                 Iniciar Sesión
               </button>
             </form>
 
             <p className="text-center text-gray-600 text-sm mt-4">
-              ¿No tienes cuenta? <a href="#" className="text-amber-600 hover:text-amber-700 font-medium">Regístrate aquí</a>
+              ¿No tienes cuenta? <a href="#" className="text-gray-700 hover:text-gray-800 font-medium">Regístrate aquí</a>
             </p>
           </div>
         </div>
