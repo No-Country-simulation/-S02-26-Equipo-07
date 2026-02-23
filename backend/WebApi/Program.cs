@@ -150,4 +150,17 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+try
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<NC07WebAppContext>();
+    Console.WriteLine(await db.Database.CanConnectAsync() 
+        ? "Database connection established" 
+        : "Error: Cannot connect to database");
+}
+catch
+{
+    Console.WriteLine("Error: Cannot connect to database");
+}
+
 app.Run();
