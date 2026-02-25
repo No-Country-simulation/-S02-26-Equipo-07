@@ -35,37 +35,5 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
-          port: ${{ secrets.VPS_PORT }}
-          script: |
-            # Login to Docker Hub
-            echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-            
-            # Pull the latest image
-            docker pull ${{ secrets.DOCKER_USERNAME }}/ecomerse_backend:main
-            
-            # Stop and remove existing container if it exists
-            docker stop ecomerse_backend || true
-            docker rm ecomerse_backend || true
-            
-            # Run the new container with environment variables
-            docker run -d \
-              --name ecomerse_backend \
-              --restart unless-stopped \
-              -p 80:80 \
-              -e JWT_SECRET_KEY="${{ secrets.JWT_SECRET_KEY }}" \
-              -e JWT_ISSUER="${{ secrets.JWT_ISSUER }}" \
-              -e JWT_AUDIENCE="${{ secrets.JWT_AUDIENCE }}" \
-              -e JWT_EXPIRATION_HOURS="${{ secrets.JWT_EXPIRATION_HOURS }}" \
-              -e DB_CONNECTION_STRING="${{ secrets.DB_CONNECTION_STRING }}" \
-              -e CORS_ALLOWED_ORIGINS="${{ secrets.CORS_ALLOWED_ORIGINS }}" \
-              -e ASPNETCORE_ENVIRONMENT="Production" \
-              ${{ secrets.DOCKER_USERNAME }}/ecomerse_backend:main
-            
-            # Clean up old images
-            docker image prune -f
+
+
