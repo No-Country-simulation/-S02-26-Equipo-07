@@ -5,7 +5,11 @@ using WebApi.Services;
 
 namespace WebApi.Controllers
 {
-    //[Authorize]
+    
+    
+    
+    
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CategoriasController : ControllerBase
