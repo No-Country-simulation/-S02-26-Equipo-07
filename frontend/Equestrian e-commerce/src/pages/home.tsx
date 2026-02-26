@@ -13,26 +13,26 @@ const HomePage = ()=>{
   },
   {
     id: 2,
-    url: 'https://images.pexels.com/photos/1996333/pexels-photo-1996333.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    url: 'https://cdn0.ecologiaverde.com/es/posts/4/8/7/caballo_5784_orig.jpg',
     title: 'Elegancia y Potencia'
   },
   {
     id: 3,
-    url: 'https://images.pexels.com/photos/1996333/pexels-photo-1996333.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    url: 'https://st3.depositphotos.com/3713385/15654/i/950/depositphotos_156540448-stock-photo-side-view-of-colorful-jockeys.jpg',
     title: 'Equipamiento Premium para tu jinete'
   },
   {
     id: 4,
-    url: 'https://images.pexels.com/photos/1996333/pexels-photo-1996333.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    url: 'https://img.freepik.com/foto-gratis/deporte-montar-caballo-caballos-tierra_23-2150995475.jpg?semt=ais_hybrid&w=740&q=80',
     title: 'Tu Compañero Perfecto'
   }
 ];
     return (
         <>
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 gap-8">
                 <ImageCarousel images={carouselImages}/>
-                <ProductGrid products={mockProducts} />
-                <EmailSubscription />
+                <ProductGrid products={mockProducts} className="mt-8" />
+                <EmailSubscription className="mt-8" />
             </main>
         </>
     )
