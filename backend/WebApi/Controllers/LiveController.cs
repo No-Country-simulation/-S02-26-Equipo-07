@@ -9,7 +9,7 @@ public class HealthController : ControllerBase
     [HttpGet("live")]                
     public IActionResult Check()
     {
-        return Ok("live");
+        return Ok("OK");
     }
 
 }
