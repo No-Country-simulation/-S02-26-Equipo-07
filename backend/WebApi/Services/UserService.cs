@@ -37,6 +37,13 @@ public class UserService : IUserService
         if (existingUser == null)
             throw new KeyNotFoundException($"User with ID {id} not found");
 
+        if (string.IsNullOrWhiteSpace(user.Username))
+            throw new ArgumentException("Username cannot be empty");
+
+        if (existingUser.Username != user.Username && 
+            await _userRepository.UsernameExistsAsync(user.Username))
+            throw new InvalidOperationException("Username already exists");
+
         existingUser.Username = user.Username;
         existingUser.Role = user.Role;
         existingUser.Status = user.Status;

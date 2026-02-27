@@ -9,13 +9,11 @@ public class RegisterRequest
     public string Username { get; set; } = null!;
 
     [Required]
-    [MinLength(6)] // La contraseña debe tener al menos 6 caracteres
+    [MinLength(6)] // La contraseï¿½a debe tener al menos 6 caracteres
     public string Password { get; set; } = null!;
 
-    // AGREGA ESTO:
-    [Required]
-    [EmailAddress] // Esto valida que tenga formato de correo (ej: nombre@dominio.com)
-    public string Email { get; set; } = null!;
+    // Email es opcional - no se guarda en DB
+    public string? Email { get; set; }
 
     [MaxLength(10)]
     public string Role { get; set; } = "user";

@@ -21,29 +21,29 @@ public class AuthService : IAuthService
         _jwtSettings = jwtSettings;
     }
 
-    public async Task<LoginResponse?> LoginAsync(LoginRequest request)
+    public async Task<(LoginResponse? Response, string? Error)> LoginAsync(LoginRequest request)
     {
         var user = await _userRepository.GetByUsernameAsync(request.Username);
         
         if (user == null)
-            return null;
+            return (null, "Usuario no registrado");
 
         if (user.Status != "habilitado")
-            return null;
+            return (null, "Usuario deshabilitado");
 
         if (!PasswordHasher.VerifyPassword(request.Password, user.PasswordHash!))
-            return null;
+            return (null, "Contraseña incorrecta");
 
         var token = GenerateJwtToken(user.Username, user.Role, user.Id);
         var expiresAt = DateTime.UtcNow.AddHours(_jwtSettings.ExpirationHours);
 
-        return new LoginResponse
+        return (new LoginResponse
         {
             Token = token,
             Username = user.Username,
             Role = user.Role,
             ExpiresAt = expiresAt
-        };
+        }, null);
     }
 
     public async Task<LoginResponse> RegisterAsync(RegisterRequest request)
@@ -51,13 +51,18 @@ public class AuthService : IAuthService
         if (await _userRepository.UsernameExistsAsync(request.Username))
             throw new InvalidOperationException("Username already exists");
 
+        var validRoles = new[] { "admin", "user" };
+        var role = request.Role?.ToLower() ?? "user";
+        if (!validRoles.Contains(role))
+            throw new ArgumentException("Role must be 'admin' or 'user'");
+
         var hashedPassword = PasswordHasher.HashPassword(request.Password);
 
         var user = new User
         {
             Username = request.Username,
             PasswordHash = hashedPassword,
-            Role = request.Role,
+            Role = role,
             Status = "habilitado",
             CreatedAt = DateTime.Now,
             ModifiedAt = DateTime.Now
