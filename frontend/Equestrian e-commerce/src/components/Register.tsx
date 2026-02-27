@@ -4,9 +4,10 @@ import { X, User, Mail, Lock } from 'lucide-react';
 interface RegisterProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenLogin: () => void;
 }
 
-const Register = ({ isOpen, onClose }: RegisterProps) => {
+const Register = ({ isOpen, onClose, onOpenLogin }: RegisterProps) => {
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -172,7 +173,7 @@ const Register = ({ isOpen, onClose }: RegisterProps) => {
           </form>
 
           <p className="text-center text-gray-600 text-sm mt-4">
-            ¿Ya tienes cuenta? <a href="#" className="text-gray-700 hover:text-gray-800 font-medium">Inicia sesión aquí</a>
+            ¿Ya tienes cuenta? <button onClick={onOpenLogin} className="text-gray-700 hover:text-gray-800 font-medium">Inicia sesión aquí</button>
           </p>
         </div>
       </div>

@@ -1,16 +1,28 @@
 import { useState } from 'react';
 import { X, Mail, Lock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenRegister: () => void;
 }
 
-const Login = ({ isOpen, onClose }: LoginProps) => {
+interface LoginResponse {
+  token: string;
+  username: string;
+  role: string;
+  expiresAt: string;
+}
+
+const Login = ({ isOpen, onClose, onOpenRegister }: LoginProps) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    usuario: '',
-    contraseña: ''
+    username: '',
+    password: ''
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -20,10 +32,41 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login:', formData);
-    setFormData({ usuario: '', contraseña: '' });
+    setError('');
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/Auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Usuario o contraseña incorrectos');
+      }
+
+      const data: LoginResponse = await response.json();
+      
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('username', data.username);
+      localStorage.setItem('role', data.role);
+      
+      setFormData({ username: '', password: '' });
+      onClose();
+      navigate('/');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al iniciar sesión');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -56,6 +99,11 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
             <p className="text-gray-600 mb-6">Ingresa tus datos para continuar</p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                  {error}
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Usuario
@@ -64,10 +112,10 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
                   <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
                   <input
                     type="text"
-                    name="usuario"
-                    value={formData.usuario}
+                    name="username"
+                    value={formData.username}
                     onChange={handleChange}
-                    placeholder="Tu usuario o email"
+                    placeholder="Tu usuario"
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
                     required
                   />
@@ -82,8 +130,8 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
                   <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
                   <input
                     type="password"
-                    name="contraseña"
-                    value={formData.contraseña}
+                    name="password"
+                    value={formData.password}
                     onChange={handleChange}
                     placeholder="Tu contraseña"
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
@@ -100,14 +148,15 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
 
               <button
                 type="submit"
-                className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 rounded-lg transition-colors mt-6"
+                disabled={loading}
+                className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 rounded-lg transition-colors mt-6 disabled:opacity-50"
               >
-                Iniciar Sesión
+                {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
               </button>
             </form>
 
             <p className="text-center text-gray-600 text-sm mt-4">
-              ¿No tienes cuenta? <a href="#" className="text-gray-700 hover:text-gray-800 font-medium">Regístrate aquí</a>
+              ¿No tienes cuenta? <button onClick={onOpenRegister} className="text-gray-700 hover:text-gray-800 font-medium">Regístrate aquí</button>
             </p>
           </div>
         </div>
