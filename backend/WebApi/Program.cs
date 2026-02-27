@@ -118,6 +118,7 @@ builder.Services.AddScoped<IVentaService, VentaService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
