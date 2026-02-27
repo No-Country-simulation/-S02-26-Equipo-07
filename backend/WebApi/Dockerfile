@@ -7,7 +7,7 @@ RUN dotnet restore ./WebApi/WebApi.csproj
 
 COPY . ./WebApi/
 WORKDIR /src/WebApi
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish WebApi.csproj -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
