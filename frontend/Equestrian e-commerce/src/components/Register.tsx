@@ -179,6 +179,13 @@ const Register = ({ isOpen, onClose, onOpenLogin }: RegisterProps) => {
               {loading ? 'CREANDO CUENTA...' : 'REGISTRARSE'}
               <span className="text-3xl leading-none">→</span>
             </button>
+
+            <p className="text-center text-zinc-600 mt-6">
+              ¿Ya tienes una cuenta?{' '}
+              <button type="button" onClick={onOpenLogin} className="text-black font-semibold hover:underline">
+                Iniciar sesión
+              </button>
+            </p>
           </form>
         </div>
       </div>
