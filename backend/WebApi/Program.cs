@@ -9,15 +9,12 @@ using WebApi.Data;
 using WebApi.Repositories;
 using WebApi.Services;
 
-// Load environment variables from .env file
 DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
 
-// Add Swagger/OpenAPI support with JWT authentication
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
@@ -48,7 +45,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// Configure JWT settings
 var jwtSettings = new JwtSettings
 {
     SecretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? builder.Configuration["Jwt:SecretKey"] ?? "YourSuperSecretKeyHere_MinimumLength32Characters!",
@@ -58,7 +54,6 @@ var jwtSettings = new JwtSettings
 };
 builder.Services.AddSingleton(jwtSettings);
 
-// Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -79,10 +74,6 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
-
-// Configure CORS
-var allowedOrigins = (Environment.GetEnvironmentVariable("CORS_ALLOWED_ORIGINS") ?? "")
-    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
 builder.Services.AddCors(options =>
 {
@@ -107,18 +98,14 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Configure DbContext with connection string from environment variable
 builder.Services.AddDbContext<NC07WebAppContext>(options =>
     options.UseSqlServer(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
 
-// Register Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICaballoRepository, CaballoRepository>();
 builder.Services.AddScoped<IJineteRepository, JineteRepository>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 
-
-// Register Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICaballoService, CaballoService>();
@@ -131,10 +118,8 @@ builder.Services.AddScoped<IVentaService, VentaService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -168,3 +153,5 @@ catch
 }
 
 app.Run();
+
+public partial class Program { }
