@@ -1,11 +1,13 @@
 import { Star } from "lucide-react";
-import type { Product } from "./types/product";
+import { useNavigate } from 'react-router';
+import type { Product } from "../../types/product";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const navigate = useNavigate();
   const renderStars = () => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star
@@ -21,25 +23,28 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <button
+      onClick={() => navigate(`/product/${product.id}`)}
+      className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 text-left w-full"
+    >
       <div className="aspect-square bg-linear-to-br from-amber-50 to-orange-100 flex items-center justify-center">
         <img
-          src={product.image || `./casco.jpg`}
+          src={product.image || `https://images.pexels.com/photos/1996333/pexels-photo-1996333.jpeg?auto=compress&cs=tinysrgb&w=400`}
           alt={product.name}
           className="w-full h-full object-cover"
         />
       </div>
       <div className="p-4">
-        <div className="flex justify-center items-center gap-1 mb-3">
-          {renderStars()}
-        </div>
-        <h3 className="font-semibold text-center text-gray-800 text-lg mb-2 line-clamp-2 min-h-14">
+        <h3 className="font-semibold text-gray-800 text-lg mb-2 line-clamp-2 min-h-14">
           {product.name}
         </h3>
-        <p className="text-2xl text-center font-bold text-gray-800">
+        <div className="flex items-center gap-1 mb-3">
+          {renderStars()}
+        </div>
+        <p className="text-2xl font-bold text-amber-600">
           ${product.price.toLocaleString()}
         </p>
       </div>
-    </div>
+    </button>
   );
 }

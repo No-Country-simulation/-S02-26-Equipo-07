@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Star, Minus, Plus, ShoppingCart } from 'lucide-react';
-import type { Product } from '../types/product';
+import type { Product } from '../../types/product';
 
 interface ProductViewProps {
   product: Product;
@@ -47,7 +47,7 @@ export default function ProductView({ product }: ProductViewProps) {
           <Star
             key={i}
             size={20}
-            className={i < rating ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}
+            className={i < rating ? 'fill-yellow-400 text-amber-400' : 'text-gray-300'}
           />
         ))}
         <span className="ml-2 text-sm text-gray-600">({rating}/5)</span>
@@ -66,7 +66,7 @@ export default function ProductView({ product }: ProductViewProps) {
                 onClick={() => setMainImage(idx)}
                 className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
                   mainImage === idx
-                    ? 'border-amber-500'
+                    ? 'border-gray-800'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
@@ -96,7 +96,7 @@ export default function ProductView({ product }: ProductViewProps) {
               {product.name}
             </h2>
 
-            <h3 className="text-2xl font-bold text-amber-600 mb-4">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">
               ${product.price.toLocaleString()}
             </h3>
 
@@ -120,7 +120,7 @@ export default function ProductView({ product }: ProductViewProps) {
                         !available
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : selectedSize === size
-                          ? 'bg-amber-500 text-white'
+                          ? 'bg-gray-800 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
                     >
@@ -156,7 +156,7 @@ export default function ProductView({ product }: ProductViewProps) {
 
             <button
               onClick={handleAddToCart}
-              className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 mb-4"
+              className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 mb-4"
             >
               <ShoppingCart size={20} />
               Agregar al Carrito

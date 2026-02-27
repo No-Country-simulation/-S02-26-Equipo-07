@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { Routes, Route } from 'react-router';
 import HomePage from './pages/home';
 import Login from './components/Login';
 import Register from './components/Register';
+import Product from './pages/product';
 
 
 function App() {
@@ -19,8 +21,16 @@ function App() {
           </p>
         </div>
       </header>
-
-      <HomePage/>
+      <main>
+        <Routes>
+          {/* Definimos qué componente se ve en la raíz */}
+          <Route path="/" element={<HomePage />} />
+          
+          {/* Definimos la ruta para el producto con un parámetro dinámico :id */}
+          <Route path="/product/:id" element={<Product />} />
+        </Routes>
+      </main>
+      
       <Login isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
       <Register isOpen={registerOpen} onClose={() => setRegisterOpen(false)}/>
     </div>
