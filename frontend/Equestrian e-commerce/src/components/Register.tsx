@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, User, Mail, Lock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface RegisterProps {
   isOpen: boolean;
@@ -7,39 +8,69 @@ interface RegisterProps {
   onOpenLogin: () => void;
 }
 
-const Register = ({ isOpen, onClose, onOpenLogin }: RegisterProps) => {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    apellido: '',
-    email: '',
-    contraseña: '',
-    terminosAceptados: false,
-    recibirNovedades: false
-  });
+interface RegisterResponse {
+  token: string;
+  username: string;
+  role: string;
+  expiresAt: string;
+}
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+const Register = ({ isOpen, onClose, onOpenLogin }: RegisterProps) => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    role: 'user'
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.terminosAceptados) {
-      alert('Debes aceptar los términos y condiciones');
-      return;
+    setError('');
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/Auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al registrar usuario');
+      }
+
+      const data: RegisterResponse = await response.json();
+      
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('username', data.username);
+      localStorage.setItem('role', data.role);
+      
+      setFormData({ username: '', email: '', password: '', role: 'user' });
+      onClose();
+      navigate('/');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al registrar');
+    } finally {
+      setLoading(false);
     }
-    console.log('Register:', formData);
-    setFormData({
-      nombre: '',
-      apellido: '',
-      email: '',
-      contraseña: '',
-      terminosAceptados: false,
-      recibirNovedades: false
-    });
   };
 
   if (!isOpen) return null;
@@ -61,41 +92,26 @@ const Register = ({ isOpen, onClose, onOpenLogin }: RegisterProps) => {
           <p className="text-gray-600 mb-6">Completa los siguientes datos para registrarte</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Nombre *
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-3 text-gray-400" size={20} />
-                  <input
-                    type="text"
-                    name="nombre"
-                    value={formData.nombre}
-                    onChange={handleChange}
-                    placeholder="Tu nombre"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
-                    required
-                  />
-                </div>
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                {error}
               </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Apellido *
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-3 text-gray-400" size={20} />
-                  <input
-                    type="text"
-                    name="apellido"
-                    value={formData.apellido}
-                    onChange={handleChange}
-                    placeholder="Tu apellido"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
-                    required
-                  />
-                </div>
+            )}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Usuario *
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-3 text-gray-400" size={20} />
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  placeholder="Tu usuario"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
+                  required
+                />
               </div>
             </div>
 
@@ -125,8 +141,8 @@ const Register = ({ isOpen, onClose, onOpenLogin }: RegisterProps) => {
                 <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
                 <input
                   type="password"
-                  name="contraseña"
-                  value={formData.contraseña}
+                  name="password"
+                  value={formData.password}
                   onChange={handleChange}
                   placeholder="Mínimo 8 caracteres"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
@@ -135,40 +151,28 @@ const Register = ({ isOpen, onClose, onOpenLogin }: RegisterProps) => {
               </div>
             </div>
 
-            <div className="space-y-3 mt-6 pt-6 border-t border-gray-200">
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="terminosAceptados"
-                  checked={formData.terminosAceptados}
-                  onChange={handleChange}
-                  className="mt-1 w-4 h-4 text-gray-500 border-gray-300 rounded focus:ring-gray-500 cursor-pointer"
-                  required
-                />
-                <span className="text-sm text-gray-700">
-                  He leído y aceptado todos los términos y condiciones <span className="text-red-500">*</span>
-                </span>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Rol *
               </label>
-
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="recibirNovedades"
-                  checked={formData.recibirNovedades}
-                  onChange={handleChange}
-                  className="mt-1 w-4 h-4 text-gray-500 border-gray-300 rounded focus:ring-gray-500 cursor-pointer"
-                />
-                <span className="text-sm text-gray-700">
-                  Quiero recibir todas las novedades sobre sus productos por email
-                </span>
-              </label>
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
+                required
+              >
+                <option value="user">Usuario</option>
+                <option value="admin">Administrador</option>
+              </select>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 rounded-lg transition-colors mt-6"
+              disabled={loading}
+              className="w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 rounded-lg transition-colors mt-6 disabled:opacity-50"
             >
-              Crear Cuenta
+              {loading ? 'Creando cuenta...' : 'Crear Cuenta'}
             </button>
           </form>
 
