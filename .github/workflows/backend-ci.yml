@@ -9,6 +9,9 @@ on:
     paths:
       - 'backend/**'
 
+env:
+  DOTNET_VERSION: '8.0.x'
+
 jobs:
   build-test:
     runs-on: ubuntu-latest
@@ -22,7 +25,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore dependencies
         run: dotnet restore
@@ -30,5 +33,35 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
-      - name: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal
+      - name: Test with coverage
+        run: |
+          dotnet test \
+            --configuration Release \
+            --no-build \
+            --collect:"XPlat Code Coverage" \
+            --logger "trx;LogFileName=results.trx" \
+            --results-directory ./TestResults \
+            /p:CollectCoverage=true \
+            /p:CoverletOutputFormat=cobertura \
+            /p:CoverletOutput=./TestResults/coverage.cobertura.xml
+
+      - name: Upload coverage results
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./TestResults/coverage.cobertura.xml
+          fail_ci_if_error: false
+          threshold: 70
+
+      - name: Check minimum test count
+        run: |
+          TEST_COUNT=$(find ./TestResults -name "*.trx" -exec grep -l "testcase" {} \; | wc -l)
+          if [ "$TEST_COUNT" -lt 30 ]; then
+            echo "Warning: Less than 30 tests executed. Current: $TEST_COUNT"
+          fi
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test-results
+          path: ./TestResults/**/*.trx
