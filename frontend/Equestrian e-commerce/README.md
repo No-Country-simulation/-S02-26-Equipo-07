@@ -2,6 +2,34 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## Configuración del entorno (.env)
+
+Para conectar el frontend con el backend, debes crear un archivo `.env` en la raíz del proyecto:
+
+### 1. Copia el archivo de ejemplo:
+
+```bash
+cp .env.example .env
+```
+
+### 2. Edita el archivo `.env` con la URL del backend:
+
+```env
+# Desarrollo local
+VITE_API_URL=http://localhost:5000
+
+# Producción (backend remoto)
+VITE_API_URL=https://api.com
+```
+
+### 3. Ejecuta el proyecto:
+
+```bash
+npm run dev
+```
+
+---
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
@@ -71,3 +99,6 @@ export default defineConfig([
   },
 ])
 ```
+
+
+
