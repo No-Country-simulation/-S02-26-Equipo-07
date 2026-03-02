@@ -2,8 +2,15 @@ import ProductGrid from '../components/home-components/ProductGrid';
 import ImageCarousel from '../components/home-components/ImageCarousel';
 import { mockProducts } from '../components/home-components/data/mockProducts';
 import EmailSubscription from '../components/home-components/EmailSubscription';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer'
 
 const HomePage = ()=>{
+
+  const handleLogin = () => {
+        console.log("Abriendo login o redirigiendo...");
+        // Aquí podrías usar navigate('/login') o abrir un modal
+    };
 
     const carouselImages = [
   {
@@ -30,9 +37,11 @@ const HomePage = ()=>{
     return (
         <>
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 gap-8">
+                <Navbar onLoginClick={handleLogin}  />
                 <ImageCarousel images={carouselImages}/>
                 <ProductGrid products={mockProducts}  />
-                <EmailSubscription  />
+                <EmailSubscription />
+                <Footer />
             </main>
         </>
     )
