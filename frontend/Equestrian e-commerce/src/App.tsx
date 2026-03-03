@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router';
+import Landing from './pages/landing';
 import HomePage from './pages/home';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -24,7 +25,7 @@ function App() {
       <main>
         <Routes>
           {/* Definimos qué componente se ve en la raíz */}
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Landing />} />
           
           {/* Definimos la ruta para el producto con un parámetro dinámico :id */}
           <Route path="/product/:id" element={<Product />} />
