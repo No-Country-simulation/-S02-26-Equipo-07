@@ -29,14 +29,8 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 flex bg-gray-950/60 items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-lg transition-colors z-10"
-        >
-          <X size={24} className="text-gray-600" />
-        </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 h-full">
           <div className="md:block bg-linear-to-br from-gray-700 to-gray-800 p-8 flex flex-col justify-center">
@@ -52,6 +46,12 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
           </div>
 
           <div className="p-8 flex flex-col justify-center">
+            <button
+              onClick={onClose}
+              className="absolute top-24 right-60 p-2 hover:bg-gray-100 rounded-lg transition-colors z-10"
+            >
+              <X size={24} className="text-gray-600" />
+            </button>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Iniciar Sesión</h1>
             <p className="text-gray-600 mb-6">Ingresa tus datos para continuar</p>
 
