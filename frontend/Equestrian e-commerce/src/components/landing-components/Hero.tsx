@@ -28,8 +28,8 @@ export default function Hero() {
 
           <div className="relative">
             <div className="aspect-square rounded-2xl bg-linear-to-br from-gray-800 to-gray-600 shadow-2xl overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center text-white text-6xl opacity-20">
-                
+              <div className="absolute inset-0 flex items-center justify-center text-white text-6xl opacity-60">
+                <img src="https://st3.depositphotos.com/3713385/15654/i/950/depositphotos_156540448-stock-photo-side-view-of-colorful-jockeys.jpg" alt="Imagen de presentacion" />
               </div>
             </div>
             <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gray-400 rounded-full blur-3xl opacity-50"></div>
