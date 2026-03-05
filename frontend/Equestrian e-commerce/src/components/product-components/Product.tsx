@@ -37,7 +37,7 @@ export default function ProductView({ product }: ProductViewProps) {
   };
 
   const isSizeAvailable = (size: string) => {
-    return product.availableSizes?.includes(size as any) ?? true;
+    return product.availableSizes?.includes(size as 'XS' | 'S' | 'M' | 'L' | 'XL') ?? true;
   };
 
   const renderStars = (rating: number) => {

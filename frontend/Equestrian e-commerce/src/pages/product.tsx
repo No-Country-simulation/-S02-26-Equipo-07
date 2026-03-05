@@ -1,7 +1,6 @@
-import { useNavigate, useParams } from 'react-router'; // 1. Importamos useParams
+import { useNavigate, useParams } from 'react-router';
 import ProductView from '../components/product-components/Product';
-import { mockProducts } from '../components/home-components/data/mockProducts'; // 2. IMPORTANTE: Importa tus datos reales
-import type { Product as ProductType } from '../types/product';
+import { mockProducts } from '../components/home-components/data/mockProducts';
 
 export default function Product() {
   // 3. Obtenemos el "id" que definimos en App.tsx (:id)

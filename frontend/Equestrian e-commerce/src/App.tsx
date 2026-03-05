@@ -9,7 +9,17 @@ import Product from './pages/product';
 
 function App() {
   const [loginOpen, setLoginOpen] = useState(false);
-  const [registerOpen, setRegisterOpen] = useState(true);
+  const [registerOpen, setRegisterOpen] = useState(false);
+  
+  const isLoggedIn = !!localStorage.getItem('token');
+  
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
+    window.location.reload();
+  };
+  
   return (
     <div className="min-h-screen bg-linear-to-br from-amber-50 to-orange-50">
       <main>
@@ -22,8 +32,22 @@ function App() {
         </Routes>
       </main>
       
-      <Login isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
-      <Register isOpen={registerOpen} onClose={() => setRegisterOpen(false)}/>
+      <Login 
+        isOpen={loginOpen} 
+        onClose={() => setLoginOpen(false)} 
+        onOpenRegister={() => {
+          setLoginOpen(false);
+          setRegisterOpen(true);
+        }} 
+      />
+      <Register 
+        isOpen={registerOpen} 
+        onClose={() => setRegisterOpen(false)}
+        onOpenLogin={() => {
+          setRegisterOpen(false);
+          setLoginOpen(true);
+        }}
+      />
     </div>
   );
 }
