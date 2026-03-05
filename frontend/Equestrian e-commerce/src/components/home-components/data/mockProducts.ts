@@ -5,7 +5,9 @@ export const mockProducts: Product[] = [
   {
     id: 1,
     name: 'Casco',
+    Category: "rider", //Esto puede ser unicamente rider y horse
     price: 15000,
+    amount: 3,
     stars: 5,
     description: 'Caballo árabe puro de excelente pedigrí. Ideal para doma clásica y competiciones. Temperamento dócil y elegante.',
     image: Image1,
