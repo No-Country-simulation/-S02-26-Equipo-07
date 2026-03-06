@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router';
 import Landing from './pages/landing';
 import HomePage from './pages/home' ;
 import CartPage from './pages/cart' ;
+import ShopPage from './pages/shop';
+import CheckoutPage from './pages/checkout'
 import Login from './components/Login';
 import Register from './components/Register';
 import Product from './pages/product';
@@ -16,7 +18,7 @@ function App() {
       <main>
         <Routes>
           {/* Definimos qué componente se ve en la raíz */}
-          <Route path="/" element={<CartPage />} />
+          <Route path="/" element={<CheckoutPage />} />
           
           {/* Definimos la ruta para el producto con un parámetro dinámico :id */}
           <Route path="/product/:id" element={<Product />} />
