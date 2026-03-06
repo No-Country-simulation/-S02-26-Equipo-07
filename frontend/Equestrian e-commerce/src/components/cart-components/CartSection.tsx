@@ -1,43 +1,17 @@
 import { useState } from "react";
 import { Heart, Trash2, ChevronDown, Tag, ShoppingBag, CheckCircle } from "lucide-react";
+import type { Product } from '../../types/product';
+import { useCart } from '../../context/CartContext';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-interface Product {
-  id: number;
-  name: string;
-  desc1: string;
-  desc2: string;
+interface CartItem {
+  product: Product;
   size: string;
   quantity: number;
-  price: number;
-  image: string;
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-
-const INITIAL_PRODUCTS: Product[] = [
-  {
-    id: 1,
-    name: "PRODUCT",
-    desc1: "Description",
-    desc2: "Description 2",
-    size: "XS",
-    quantity: 1,
-    price: 95.5,
-    image: "https://images.unsplash.com/photo-1612404730960-5c71577fca11?w=120&h=120&fit=crop&q=80",
-  },
-  {
-    id: 2,
-    name: "PRODUCT",
-    desc1: "Description",
-    desc2: "Description 2",
-    size: "L",
-    quantity: 1,
-    price: 95.5,
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=120&h=120&fit=crop&q=80",
-  },
-];
 
 const DELIVERY = 9.99;
 const SIZES = ["XS", "S", "M", "L", "XL"];
@@ -77,7 +51,7 @@ function SelectField({ value, options, label, onChange }: SelectFieldProps) {
 }
 
 interface CartItemProps {
-  product: Product;
+  item: CartItem;
   isWishlisted: boolean;
   onSizeChange: (id: number, size: string) => void;
   onQtyChange: (id: number, qty: number) => void;
@@ -87,7 +61,7 @@ interface CartItemProps {
 }
 
 function CartItem({
-  product,
+  item,
   isWishlisted,
   onSizeChange,
   onQtyChange,
@@ -99,10 +73,10 @@ function CartItem({
     <div>
       <div className="flex gap-5">
         {/* Image */}
-        <div className="w-28 h-28 rounded-lg overflow-hidden bg-stone-100 border border-stone-200 flex-shrink-0">
+        <div className="w-28 h-28 rounded-lg overflow-hidden bg-stone-100 border border-stone-200 shrink-0">
           <img
-            src={product.image}
-            alt={product.name}
+            src={item.product.image}
+            alt={item.product.name}
             className="w-full h-full object-cover"
           />
         </div>
@@ -111,35 +85,34 @@ function CartItem({
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-start gap-2">
             <div>
-              <p className="font-bold text-sm text-gray-900">{product.name}</p>
-              <p className="text-gray-500 text-xs">{product.desc1}</p>
-              <p className="text-gray-500 text-xs mb-3">{product.desc2}</p>
+              <p className="font-bold text-sm text-gray-900">{item.product.name}</p>
+              <p className="text-gray-500 text-xs">{item.product.description} </p>
             </div>
             <span className="text-blue-600 font-bold text-sm whitespace-nowrap">
-              ${(product.price * product.quantity).toFixed(2)}
+              ${(item.product.price * item.quantity).toFixed(2)}
             </span>
           </div>
 
           {/* Selects */}
           <div className="flex gap-3 mb-3">
             <SelectField
-              value={product.size}
+              value={item.size}
               options={SIZES}
               label={(s) => `Size ${s}`}
-              onChange={(val) => onSizeChange(product.id, val)}
+              onChange={(val) => onSizeChange(item.product.id, val)}
             />
             <SelectField
-              value={product.quantity}
+              value={item.quantity}
               options={QUANTITIES}
               label={(q) => `Quantity ${q}`}
-              onChange={(val) => onQtyChange(product.id, Number(val))}
+              onChange={(val) => onQtyChange(item.product.id, Number(val))}
             />
           </div>
 
           {/* Actions */}
           <div className="flex gap-4">
             <button
-              onClick={() => onWishlist(product.id)}
+              onClick={() => onWishlist(item.product.id)}
               className="text-gray-400 hover:text-red-500 transition-colors"
               aria-label="Add to wishlist"
             >
@@ -149,7 +122,7 @@ function CartItem({
               />
             </button>
             <button
-              onClick={() => onRemove(product.id)}
+              onClick={() => onRemove(item.product.id)}
               className="text-gray-400 hover:text-gray-700 transition-colors"
               aria-label="Remove item"
             >
@@ -167,26 +140,16 @@ function CartItem({
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function CartSection() {
-  const [cart, setCart] = useState<Product[]>(INITIAL_PRODUCTS);
-  const [wishlist, setWishlist] = useState<Record<number, boolean>>({});
-  const [promoCode, setPromoCode] = useState<string>("");
-  const [discount, setDiscount] = useState<number | null>(null);
+  const { cart, removeFromCart, updateQty, updateSize } = useCart();
+  const [wishlist, setWishlist]     = useState<Record<number, boolean>>({});
+  const [promoCode, setPromoCode]   = useState<string>("");
+  const [discount, setDiscount]     = useState<number | null>(null);
   const [promoApplied, setPromoApplied] = useState<boolean>(false);
   const [promoError, setPromoError] = useState<boolean>(false);
-
-  const updateSize = (id: number, size: string): void =>
-    setCart((prev) => prev.map((p) => (p.id === id ? { ...p, size } : p)));
-
-  const updateQty = (id: number, quantity: number): void =>
-    setCart((prev) => prev.map((p) => (p.id === id ? { ...p, quantity } : p)));
-
-  const removeItem = (id: number): void =>
-    setCart((prev) => prev.filter((p) => p.id !== id));
-
   const toggleWishlist = (id: number): void =>
-    setWishlist((prev) => ({ ...prev, [id]: !prev[id] }));
+  setWishlist((prev) => ({ ...prev, [id]: !prev[id] }));
 
-  const subtotal = cart.reduce((sum, p) => sum + p.price * p.quantity, 0);
+  const subtotal = cart.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
   const total = subtotal + DELIVERY - (discount ?? 0);
 
   const applyPromo = (): void => {
@@ -230,14 +193,14 @@ export default function CartSection() {
               <p className="text-sm">Your bag is empty.</p>
             </div>
           ) : (
-            cart.map((product, i) => (
+            cart.map((item, i) => (
               <CartItem
-                key={product.id}
-                product={product}
-                isWishlisted={!!wishlist[product.id]}
+                key={item.product.id}
+                item={item} 
+                isWishlisted={!!wishlist[item.product.id]}
                 onSizeChange={updateSize}
                 onQtyChange={updateQty}
-                onRemove={removeItem}
+                onRemove={removeFromCart}
                 onWishlist={toggleWishlist}
                 showDivider={i < cart.length - 1}
               />

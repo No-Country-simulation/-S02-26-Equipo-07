@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Star, Minus, Plus, ShoppingCart } from 'lucide-react';
 import type { Product } from '../../types/product';
+import { useCart } from '../../context/CartContext';
 
 interface ProductViewProps {
   product: Product;
@@ -17,18 +18,14 @@ export default function ProductView({ product }: ProductViewProps) {
     'https://images.pexels.com/photos/1996333/pexels-photo-1996333.jpeg?auto=compress&cs=tinysrgb&w=600'
   ];
 
+  const { addToCart } = useCart();
+
   const handleAddToCart = () => {
     if (!selectedSize) {
       alert('Por favor selecciona un tamaño');
       return;
     }
-    console.log({
-      productId: product.id,
-      productName: product.name,
-      size: selectedSize,
-      quantity,
-      price: product.price
-    });
+    addToCart(product, selectedSize!, quantity);
     alert(`Producto agregado: ${quantity} x ${product.name} (Tamaño: ${selectedSize})`);
   };
 
