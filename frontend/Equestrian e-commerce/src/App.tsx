@@ -8,26 +8,27 @@ import CheckoutPage from './pages/checkout'
 import Login from './components/Login';
 import Register from './components/Register';
 import Product from './pages/product';
+import { CartProvider } from './context/CartContext';
 
 
 function App() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(true);
   return (
-    <div className="min-h-screen bg-linear-to-br from-amber-50 to-orange-50">
-      <main>
-        <Routes>
-          {/* Definimos qué componente se ve en la raíz */}
-          <Route path="/" element={<CheckoutPage />} />
-          
-          {/* Definimos la ruta para el producto con un parámetro dinámico :id */}
-          <Route path="/product/:id" element={<Product />} />
-        </Routes>
-      </main>
-      
-      <Login isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
-      <Register isOpen={registerOpen} onClose={() => setRegisterOpen(false)}/>
-    </div>
+    <CartProvider>
+      <div className="min-h-screen bg-linear-to-br from-amber-50 to-orange-50">
+        <main>
+          <Routes>
+            <Route path="/"            element={<Landing />} />
+            <Route path="/home"        element={<HomePage />} />
+            <Route path="/product"     element={<ShopPage />} />
+            <Route path="/product/:id" element={<Product />} />
+            <Route path="/cart"        element={<CartPage />} />
+            <Route path="/checkout"    element={<CheckoutPage />} />
+          </Routes>
+        </main>
+      </div>
+    </CartProvider>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, Mail, Lock } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 interface LoginProps {
   isOpen: boolean;
@@ -12,6 +13,8 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
     contraseña: ''
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -21,9 +24,16 @@ const Login = ({ isOpen, onClose }: LoginProps) => {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Login:', formData);
-    setFormData({ usuario: '', contraseña: '' });
+  e.preventDefault();
+    if (
+      formData.usuario === 'juan.ejemplar@gmail.com' &&
+      formData.contraseña === 'Developer1'
+    ) {
+      onClose();
+      navigate('/home');
+    } else {
+      alert('Usuario o contraseña incorrectos');
+    }
   };
 
   if (!isOpen) return null;

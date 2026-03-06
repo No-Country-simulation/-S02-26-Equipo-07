@@ -72,9 +72,9 @@ export default function Footer() {
               </svg>
 
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Premium Horses</h3>
+            <h3 className="text-lg font-bold text-white mb-2">EquiStore</h3>
             <p className="text-sm text-gray-400">
-              Encuentra los mejores caballos de raza pura para tu vida
+              Encuentra los mejor para tu caballo
             </p>
           </div>
 
@@ -141,7 +141,7 @@ export default function Footer() {
                 <span className="text-gray-400">Email:</span>
                 <br />
                 <a href="mailto:info@premiumhorses.com" className="hover:text-amber-500 transition-colors">
-                  info@premiumhorses.com
+                  info@EquiStore.com
                 </a>
               </li>
               <li>
@@ -158,7 +158,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <p className="text-sm text-gray-400">
-              &copy; 2024 Premium Horses. Todos los derechos reservados.
+              &copy; 2026 Equistore. Todos los derechos reservados.
             </p>
             <div className="flex gap-6 mt-4 md:mt-0">
               <button className="text-sm text-gray-400 hover:text-amber-500 transition-colors">

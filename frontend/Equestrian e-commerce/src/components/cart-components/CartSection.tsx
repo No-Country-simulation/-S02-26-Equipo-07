@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Heart, Trash2, ChevronDown, Tag, ShoppingBag, CheckCircle } from "lucide-react";
 import type { Product } from '../../types/product';
 import { useCart } from '../../context/CartContext';
+import { useNavigate } from "react-router";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -98,13 +99,13 @@ function CartItem({
             <SelectField
               value={item.size}
               options={SIZES}
-              label={(s) => `Size ${s}`}
+              label={(s) => `Talle ${s}`}
               onChange={(val) => onSizeChange(item.product.id, val)}
             />
             <SelectField
               value={item.quantity}
               options={QUANTITIES}
-              label={(q) => `Quantity ${q}`}
+              label={(q) => `Cantidad ${q}`}
               onChange={(val) => onQtyChange(item.product.id, Number(val))}
             />
           </div>
@@ -148,6 +149,7 @@ export default function CartSection() {
   const [promoError, setPromoError] = useState<boolean>(false);
   const toggleWishlist = (id: number): void =>
   setWishlist((prev) => ({ ...prev, [id]: !prev[id] }));
+  const navigate = useNavigate();
 
   const subtotal = cart.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
   const total = subtotal + DELIVERY - (discount ?? 0);
@@ -218,7 +220,7 @@ export default function CartSection() {
           <div className="flex flex-col gap-3 mb-5">
             <div className="flex justify-between text-sm text-gray-700">
               <span>
-                {cart.length} Articulos{cart.length !== 1 ? "" : ""}
+                {cart.length} Articulo{cart.length !== 1 ? "s" : ""}
               </span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
@@ -242,7 +244,8 @@ export default function CartSection() {
           </div>
 
           {/* Checkout button */}
-          <button className="w-full bg-gray-900 hover:bg-gray-700 active:bg-gray-800 text-white font-bold text-sm tracking-widest rounded-lg py-3.5 mb-5 transition-colors cursor-pointer">
+          <button onClick={() => navigate('/checkout')}
+          className="w-full bg-gray-900 hover:bg-gray-700 active:bg-gray-800 text-white font-bold text-sm tracking-widest rounded-lg py-3.5 mb-5 transition-colors cursor-pointer">
             Comprar
           </button>
 

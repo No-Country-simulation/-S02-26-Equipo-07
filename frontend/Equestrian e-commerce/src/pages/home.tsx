@@ -36,11 +36,19 @@ const HomePage = ()=>{
 ];
     return (
         <>
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 gap-8">
-                <Navbar onLoginClick={handleLogin}  />
-                <ImageCarousel images={carouselImages}/>
-                <ProductGrid products={mockProducts}  />
-                <EmailSubscription />
+            <main className="max-w-full mx-auto gap-8">
+                <div className='mt-8'>
+                  <Navbar onLoginClick={handleLogin}  />
+                </div>
+                <div className='mt-8'>
+                  <ImageCarousel images={carouselImages}/>
+                </div>
+                <div className='mt-8'>
+                  <ProductGrid products={mockProducts}  />
+                </div>
+                <div className='mt-8'>
+                  <EmailSubscription />
+                </div>
                 <Footer />
             </main>
         </>

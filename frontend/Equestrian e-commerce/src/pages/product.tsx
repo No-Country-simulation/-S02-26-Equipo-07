@@ -1,5 +1,7 @@
 import { useNavigate, useParams } from 'react-router'; // 1. Importamos useParams
 import ProductView from '../components/product-components/Product';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer'
 import { mockProducts } from '../components/home-components/data/mockProducts'; // 2. IMPORTANTE: Importa tus datos reales
 import type { Product as ProductType } from '../types/product';
 
@@ -8,6 +10,11 @@ export default function Product() {
   const { id } = useParams<{ id: string }>();
   const productId = id ? parseInt(id, 10) : null;
   const navigate = useNavigate();
+
+  const handleLogin = () => {
+        console.log("Abriendo login o redirigiendo...");
+        // Aquí podrías usar navigate('/login') o abrir un modal
+    };
 
   // 4. Buscamos el producto en el array de datos usando ese ID
   const product = mockProducts.find((p) => p.id === productId);
@@ -18,7 +25,7 @@ export default function Product() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-amber-50">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">¡Ups! Producto no encontrado</h2>
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/product')}
           className="bg-gray-600 text-white px-6 py-2 rounded-lg"
         >
           Volver a la tienda
@@ -30,15 +37,18 @@ export default function Product() {
   // 6. Si existe, lo pasamos al ProductView (ahora ya no es undefined)
   return (
     <div className="min-h-screen bg-linear-to-br from-amber-50 to-orange-50 py-8 px-4">
+      <Navbar onLoginClick={handleLogin}/>
       <div className="max-w-7xl mx-auto">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/home')}
           className="inline-flex items-center text-gray-800 hover:text-gray-900 font-medium mb-8 transition-colors"
         >
           ← Volver a productos
         </button>
         <ProductView product={product} />
       </div>
+      <Footer />
+      
     </div>
   );
 }

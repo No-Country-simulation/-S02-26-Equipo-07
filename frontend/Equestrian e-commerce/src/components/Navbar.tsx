@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router';
-import { Star, User, Menu, X } from 'lucide-react';
+import { Star, User, Menu, X, ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
+import { useCart } from '../context/CartContext';
 
 interface NavbarProps {
   onLoginClick: () => void;
@@ -10,6 +11,8 @@ export default function Navbar({ onLoginClick }: NavbarProps) {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const { cart } = useCart();
+  const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -23,7 +26,7 @@ export default function Navbar({ onLoginClick }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/home')}
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
             <span className="hidden sm:inline text-lg font-bold text-gray-900">
@@ -94,8 +97,8 @@ export default function Navbar({ onLoginClick }: NavbarProps) {
           </button>
             
             <button
-              onClick={() => navigate('/')}
-              className="text-gray-700 hover:text-gray-900 font-medium transition-colors"
+              onClick={() => navigate('/product')}
+              className="text-gray-700 hover:text-yellow-500 font-medium transition-colors duration-300"
             >
               Productos
             </button>
@@ -103,10 +106,16 @@ export default function Navbar({ onLoginClick }: NavbarProps) {
             <div onClick={handleSearch} className="flex items-center gap-2 rounded-lg px-3 py-2">
               
               <button
-                className="flex justify-center gap-2 items-center text-gray-700 font-medium hover:text-yellow-500 transition-colors"
+                onClick={() => navigate('/cart')}
+                className="flex justify-center gap-2 items-center text-gray-700 font-medium hover:text-yellow-500 transition-colors relative"
               >
-                <p >Busqueda especial</p>
-                <Star size={18} />
+                <p>Carrito</p>
+                <ShoppingCart size={20} />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-3 bg-amber-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
               </button>
             </div>
           
@@ -114,7 +123,7 @@ export default function Navbar({ onLoginClick }: NavbarProps) {
           <div className="flex items-center gap-4">
             <button
               onClick={onLoginClick}
-              className="hidden sm:flex items-center gap-2 text-gray-700 hover:text-amber-600 transition-colors"
+              className="hidden sm:flex items-center gap-2 text-gray-700 hover:text-yellow-500 transition-colors"
             >
               <User size={20} />
               <span className="hidden md:inline text-sm font-medium">Perfil</span>
@@ -122,7 +131,7 @@ export default function Navbar({ onLoginClick }: NavbarProps) {
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-gray-700 hover:text-amber-600"
+              className="md:hidden text-gray-700 hover:text-yellow-500"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
